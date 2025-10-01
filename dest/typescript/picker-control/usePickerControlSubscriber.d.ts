@@ -1,4 +1,4 @@
-import type { PickerItem } from '@implementation/base';
+import type { PickerItem } from '../base';
 import type { Control } from './create-control';
 export declare const usePickerControlSubscriber: ({ control, pickerName, currentItem, }: {
     control: Control;
@@ -9,7 +9,7 @@ export declare const usePickerControlSubscriber: ({ control, pickerName, current
     enableSyncScrollAfterScrollEnd: boolean;
     onScrollStart: () => void;
     onScrollEnd: (() => void) | (() => void);
-    emitOnValueChanged: (() => void) | ((event: import("@implementation/base").ValueChangedEvent<PickerItem<unknown>>) => void);
-    emitOnValueChanging: (() => void) | ((event: import("@implementation/base").ValueChangingEvent<PickerItem<unknown>>) => void);
+    emitOnValueChanged: (() => void) | ((event: import("../base").ValueChangedEvent<PickerItem<unknown>>) => void);
+    emitOnValueChanging: (() => void) | ((event: import("../base").ValueChangingEvent<PickerItem<unknown>>) => void);
 };
 //# sourceMappingURL=usePickerControlSubscriber.d.ts.map

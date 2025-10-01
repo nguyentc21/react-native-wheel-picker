@@ -1,1 +1,1 @@
-{"version":3,"file":"getPageIndex.d.ts","sourceRoot":"","sources":["../../../../src/utils/scrolling/getPageIndex.ts"],"names":[],"mappings":"AAAA,eAAO,MAAM,YAAY,WACf,MAAM,4BACU;IAAC,QAAQ,EAAE,MAAM,CAAC;IAAC,UAAU,EAAE,MAAM,CAAA;CAAC,WAM/D,CAAC"}
+{"version":3,"file":"getPageIndex.d.ts","sourceRoot":"","sources":["../../../../src/utils/scrolling/getPageIndex.ts"],"names":[],"mappings":"AAAA,eAAO,MAAM,YAAY,WACf,MAAM,6BAIX;IACD,QAAQ,EAAE,MAAM,CAAC;IACjB,UAAU,EAAE,MAAM,CAAC;CACpB,WAMF,CAAC"}

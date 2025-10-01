@@ -1,5 +1,5 @@
 import React, { type PropsWithChildren } from 'react';
-import { type PickerControl } from '@implementation/picker-control';
+import { type PickerControl } from '../picker-control';
 import { type DateLocale, type OnlyDateFormat, type OnlyDateUnits } from './date';
 type ContextValue = {
     pickerControl: PickerControl;

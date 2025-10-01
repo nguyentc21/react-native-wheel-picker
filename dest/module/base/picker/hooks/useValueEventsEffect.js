@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { useStableCallback } from '@rozhkov/react-useful-hooks';
-import { getPageIndex } from '@utils/scrolling';
+import { getPageIndex } from '../../../utils/scrolling';
 const useValueEventsEffect = ({
   valueIndex,
   data,

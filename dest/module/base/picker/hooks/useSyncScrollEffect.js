@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { useStableCallback } from '@rozhkov/react-useful-hooks';
-import { useEffectWithDynamicDepsLength } from '@utils/react';
+import { useEffectWithDynamicDepsLength } from '../../../utils/react';
 const useSyncScrollEffect = ({
   listRef,
   value,

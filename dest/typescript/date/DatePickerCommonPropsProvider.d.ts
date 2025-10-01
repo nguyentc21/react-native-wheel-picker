@@ -1,6 +1,6 @@
 import React, { type ComponentType, type PropsWithChildren } from 'react';
 import type { StyleProp, TextStyle, ViewStyle } from 'react-native';
-import type { PickerProps } from '@implementation/base';
+import type { PickerProps } from '../base';
 type ContextValue = {
     itemHeight: number | undefined;
     visibleItemCount: number | undefined;

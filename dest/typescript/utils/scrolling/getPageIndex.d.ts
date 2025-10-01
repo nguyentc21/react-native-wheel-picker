@@ -1,4 +1,4 @@
-export declare const getPageIndex: (offset: number, { maxIndex, pageLength }: {
+export declare const getPageIndex: (offset: number, { maxIndex, pageLength, }: {
     maxIndex: number;
     pageLength: number;
 }) => number;

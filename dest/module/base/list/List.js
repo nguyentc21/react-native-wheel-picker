@@ -2,7 +2,7 @@ function _extends() { return _extends = Object.assign ? Object.assign.bind() : f
 import React, { forwardRef, memo, useImperativeHandle, useMemo, useRef } from 'react';
 import { Animated, StyleSheet } from 'react-native';
 import { useInit } from '@rozhkov/react-useful-hooks';
-import { withScrollStartEndEvent } from '@utils/scrolling';
+import { withScrollStartEndEvent } from '../../utils/scrolling';
 const ExtendedAnimatedScrollView = withScrollStartEndEvent(Animated.ScrollView);
 const OFFSET_X = 0;
 const getOffsetY = (index, itemHeight) => index * itemHeight;

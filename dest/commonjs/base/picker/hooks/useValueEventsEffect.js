@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 var _react = require("react");
 var _reactUsefulHooks = require("@rozhkov/react-useful-hooks");
-var _scrolling = require("@utils/scrolling");
+var _scrolling = require("../../../utils/scrolling");
 const useValueEventsEffect = ({
   valueIndex,
   data,

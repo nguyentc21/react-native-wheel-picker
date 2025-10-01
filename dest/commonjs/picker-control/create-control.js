@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.createControl = void 0;
-var _nanoevents = require("@utils/nanoevents");
+var _nanoevents = require("../utils/nanoevents");
 let nextSubId = 1;
 const getNewSubId = () => `${++nextSubId}`;
 const createControl = () => {

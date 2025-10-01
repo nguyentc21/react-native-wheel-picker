@@ -1,5 +1,5 @@
-import type { PickerItem, ValueChangedEvent, ValueChangingEvent } from '@implementation/base';
-import { type Unsubscribe } from '@utils/nanoevents';
+import type { PickerItem, ValueChangedEvent, ValueChangingEvent } from '../base';
+import { type Unsubscribe } from '../utils/nanoevents';
 type PickerName = string;
 export type BaseControlConfig = Record<PickerName, {
     item: PickerItem<unknown>;

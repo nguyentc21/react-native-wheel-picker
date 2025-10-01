@@ -1,5 +1,5 @@
 import React from 'react';
-import { type PickerProps } from '@implementation/base';
+import { type PickerProps } from '../base';
 export type DatePickerDateProps = Omit<PickerProps<{
     value: number;
 }>, 'value' | 'data'>;

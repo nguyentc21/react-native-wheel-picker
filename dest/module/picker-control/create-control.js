@@ -1,4 +1,4 @@
-import { createNanoEvents } from '@utils/nanoevents';
+import { createNanoEvents } from '../utils/nanoevents';
 let nextSubId = 1;
 const getNewSubId = () => `${++nextSubId}`;
 export const createControl = () => {

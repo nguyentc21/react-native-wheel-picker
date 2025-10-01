@@ -1,6 +1,6 @@
 import React from 'react';
-import type { PickerProps } from '@implementation/base';
-import Picker, { type PickerItem } from '@implementation/base';
+import type { PickerProps } from '../../base';
+import Picker, { type PickerItem } from '../../base';
 import type { AdditionalProps } from './VirtualizedList';
 export type WithVirtualizedProps<ItemT extends PickerItem<any>> = AdditionalProps & PickerProps<ItemT>;
 type WithVirtualizedComponent = <ItemT extends PickerItem<any>>(props: WithVirtualizedProps<ItemT>) => React.ReactElement;

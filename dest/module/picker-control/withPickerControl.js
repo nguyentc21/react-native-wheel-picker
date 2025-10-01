@@ -2,7 +2,7 @@ function _extends() { return _extends = Object.assign ? Object.assign.bind() : f
 import React, { forwardRef, memo } from 'react';
 import { useStableCallback } from '@rozhkov/react-useful-hooks';
 import { usePickerControlSubscriber } from './usePickerControlSubscriber';
-import { useValueIndex } from '@implementation/base';
+import { useValueIndex } from '../base';
 export const withPickerControl = PickerComponent => {
   const WrappedPicker = ({
     pickerName,

@@ -14,7 +14,7 @@ var _useSyncScrollEffect = _interopRequireDefault(require("./hooks/useSyncScroll
 var _Overlay = _interopRequireDefault(require("../overlay/Overlay"));
 var _faces = require("../item/faces");
 var _PickerItemContainer = _interopRequireDefault(require("../item/PickerItemContainer"));
-var _react2 = require("@utils/react");
+var _react2 = require("../../utils/react");
 var _reactUsefulHooks = require("@rozhkov/react-useful-hooks");
 var _List = _interopRequireDefault(require("../list/List"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }

@@ -1,6 +1,6 @@
 import type { Control } from './create-control';
 import React, { type ComponentType } from 'react';
-import { type OnValueChanged, type OnValueChanging, type PickerItem } from '@implementation/base';
+import { type OnValueChanged, type OnValueChanging, type PickerItem } from '../base';
 type RequiredPickerProps = {
     data: ReadonlyArray<PickerItem<unknown>>;
     value?: unknown;

@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 var _react = require("react");
 var _reactUsefulHooks = require("@rozhkov/react-useful-hooks");
-var _react2 = require("@utils/react");
+var _react2 = require("../../../utils/react");
 const useSyncScrollEffect = ({
   listRef,
   value,

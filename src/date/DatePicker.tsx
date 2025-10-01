@@ -8,19 +8,20 @@ import DatePickerContainer, {type DateNodeType} from './DatePickerContainer';
 import type {OnlyDateFormat} from './date';
 import DatePickerLocaleProvider from './DatePickerLocaleProvider';
 import DatePickerCommonPropsProvider from './DatePickerCommonPropsProvider';
-
 type DatePickerProps = {
   date: OnlyDateFormat;
   onDateChanged: (event: {date: OnlyDateFormat}) => void;
   minDate?: OnlyDateFormat;
   maxDate?: OnlyDateFormat;
   locale?: string;
-
   renderDate?: () => ReactNode;
   renderMonth?: () => ReactNode;
   renderYear?: () => ReactNode;
   children?: (props: {
-    dateNodes: {node: ReactNode; type: DateNodeType}[];
+    dateNodes: {
+      node: ReactNode;
+      type: DateNodeType;
+    }[];
   }) => ReactNode;
 
   // region common props for all child wheel pickers
@@ -35,7 +36,6 @@ type DatePickerProps = {
   contentContainerStyle?: StyleProp<ViewStyle>;
   // endregion
 };
-
 const DatePickerComponent = ({
   date,
   onDateChanged,
@@ -46,7 +46,6 @@ const DatePickerComponent = ({
   renderMonth,
   renderYear,
   children = ({dateNodes}) => <>{dateNodes.map((dateNode) => dateNode.node)}</>,
-
   // region common props for all child wheel pickers
   itemHeight,
   visibleItemCount,
@@ -90,9 +89,7 @@ DatePickerProps) => {
     </DatePickerLocaleProvider>
   );
 };
-
 DatePickerComponent.displayName = 'DatePicker';
-
 export const DatePicker = Object.assign(DatePickerComponent, {
   Date: DatePickerDates,
   Month: DatePickerMonth,

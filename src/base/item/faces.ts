@@ -1,5 +1,4 @@
-import {degToRad} from '@utils/math';
-
+import {degToRad} from '../../utils/math';
 export type Faces = {
   index: number;
   deg: number;
@@ -15,7 +14,6 @@ export type Faces = {
  */
 const calcHeight = (degree: number, itemHeight: number) =>
   itemHeight * Math.cos(degToRad(degree));
-
 export const calcPickerHeight = (faces: Faces[], itemHeight: number) => {
   // TODO left for backward compatibility, it must be removed after updating the major version.
   if (faces.length === 7) {
@@ -23,13 +21,11 @@ export const calcPickerHeight = (faces: Faces[], itemHeight: number) => {
   }
   return faces.reduce((r, v) => r + calcHeight(Math.abs(v.deg), itemHeight), 0);
 };
-
 function curveFunction(x: number, Z = 0.2, k = 0.1) {
   if (x < 0) throw new Error('X must be >= 0');
   if (Z <= 0 || Z >= 1) throw new Error('Z must be in (0,1)');
   return 1 - (1 - Z) * Math.exp(-k * x);
 }
-
 export const createFaces = (
   itemHeight: number,
   visibleCount: number,
@@ -50,14 +46,12 @@ export const createFaces = (
   const getDegreesRelativeCenter = () => {
     const maxStep = Math.trunc((visibleCount + 2) / 2); // + 2 because there are 2 more faces at 90 degrees
     const stepDegree = maxDegree / maxStep;
-
     const result = [];
     for (let i = 1; i <= maxStep; i++) {
       result.push(i * stepDegree);
     }
     return result;
   };
-
   const getScreenHeightsAndOffsets = <T extends readonly number[]>(
     degrees: T,
   ): [T, T] => {
@@ -76,22 +70,27 @@ export const createFaces = (
     }) as unknown as T;
     return [screenHeights, offsets];
   };
-
-  const getOpacity = (faceIndex: number, length: number, opacityRatio: number) => {
+  const getOpacity = (
+    faceIndex: number,
+    length: number,
+    opacityRatio: number,
+  ) => {
     if (opacityRatio === 0) return 1;
     if (Math.abs(faceIndex) === length - 1) return 0;
     if (faceIndex === 0) return 1;
     return (
       1 +
       0.2 -
-      curveFunction(Math.pow(Math.abs(faceIndex), curveSpeed), 0.2, opacityRatio)
+      curveFunction(
+        Math.pow(Math.abs(faceIndex), curveSpeed),
+        0.2,
+        opacityRatio,
+      )
     );
   };
-
   const degrees = getDegreesRelativeCenter();
   const [screenHeight, offsets] = getScreenHeightsAndOffsets(degrees);
   const length = degrees.length * 2 + 1;
-
   return [
     // top items
     ...degrees
@@ -105,10 +104,14 @@ export const createFaces = (
         };
       })
       .reverse(),
-
     // center item
-    {index: 0, deg: 0, opacity: 1, offsetY: 0, screenHeight: itemHeight},
-
+    {
+      index: 0,
+      deg: 0,
+      opacity: 1,
+      offsetY: 0,
+      screenHeight: itemHeight,
+    },
     // bottom items
     ...degrees.map<Faces>((degree, index) => {
       return {

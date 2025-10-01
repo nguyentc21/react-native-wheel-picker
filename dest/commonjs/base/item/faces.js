@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.createFaces = exports.calcPickerHeight = void 0;
-var _math = require("@utils/math");
+var _math = require("../../utils/math");
 /**
  * Calculates the height of the element after rotating it relative to the user's screen.
  * @param degree - the angle relative to the screen plane.

@@ -1,4 +1,4 @@
-import { degToRad } from '@utils/math';
+import { degToRad } from '../../utils/math';
 /**
  * Calculates the height of the element after rotating it relative to the user's screen.
  * @param degree - the angle relative to the screen plane.

@@ -1,5 +1,4 @@
 import { isAfter, isBefore, isWithinInterval, startOfDay } from 'date-fns';
-
 // YYYY-MM-DD
 
 const withBoundaries = (date, min, max) => {

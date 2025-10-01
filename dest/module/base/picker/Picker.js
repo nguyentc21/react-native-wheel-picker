@@ -9,7 +9,7 @@ import useSyncScrollEffect from './hooks/useSyncScrollEffect';
 import Overlay from '../overlay/Overlay';
 import { calcPickerHeight, createFaces } from '../item/faces';
 import PickerItemContainer from '../item/PickerItemContainer';
-import { useBoolean } from '@utils/react';
+import { useBoolean } from '../../utils/react';
 import { useInit, useStableCallback } from '@rozhkov/react-useful-hooks';
 import List from '../list/List';
 const defaultKeyExtractor = (_, index) => index.toString();
