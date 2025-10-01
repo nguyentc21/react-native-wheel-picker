@@ -31,6 +31,14 @@ import {useBoolean} from '@utils/react';
 import {useInit, useStableCallback} from '@rozhkov/react-useful-hooks';
 import List from '../list/List';
 
+type TransformOptions = {
+  /** 0 to 90 (deg)*/
+  maxDegree?: number;
+  /** Default = 0.1. The larger the number, the dimmer the items near the center are*/
+  opacityRatio?: number;
+  /** Default = 2. The larger the number, the faster the items near the center change*/
+  curveSpeed?: number;
+}
 export type PickerProps<ItemT extends PickerItem<any>> = {
   data: ReadonlyArray<ItemT>;
   value: ItemT['value'];
@@ -61,7 +69,7 @@ export type PickerProps<ItemT extends PickerItem<any>> = {
   _enableSyncScrollAfterScrollEnd?: boolean;
   _onScrollStart?: () => void;
   _onScrollEnd?: () => void;
-};
+} & TransformOptions;
 
 const defaultKeyExtractor: KeyExtractor<any> = (_, index) => index.toString();
 const defaultRenderItem: RenderItem<PickerItem<any>> = ({
@@ -121,6 +129,10 @@ const Picker = <ItemT extends PickerItem<any>>({
   _enableSyncScrollAfterScrollEnd = true,
   _onScrollStart,
   _onScrollEnd,
+  
+  maxDegree,
+  opacityRatio,
+  curveSpeed,
   ...restProps
 }: PickerProps<ItemT>) => {
   const valueIndex = useValueIndex(data, value);
@@ -135,10 +147,22 @@ const Picker = <ItemT extends PickerItem<any>>({
   const touching = useBoolean(false);
 
   const [faces, pickerHeight] = useMemo(() => {
-    const items = createFaces(itemHeight, visibleItemCount);
+    const items = createFaces(
+      itemHeight,
+      visibleItemCount,
+      maxDegree,
+      opacityRatio,
+      curveSpeed,
+    );
     const height = calcPickerHeight(items, itemHeight);
     return [items, height];
-  }, [itemHeight, visibleItemCount]);
+  }, [
+    itemHeight,
+    visibleItemCount,
+    maxDegree,
+    opacityRatio,
+    curveSpeed,
+  ]);
   const renderPickerItem = useCallback<RenderPickerItem<ItemT>>(
     ({item, index, key}) =>
       renderItemContainer({

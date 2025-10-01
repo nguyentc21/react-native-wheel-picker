@@ -24,9 +24,18 @@ export const calcPickerHeight = (faces: Faces[], itemHeight: number) => {
   return faces.reduce((r, v) => r + calcHeight(Math.abs(v.deg), itemHeight), 0);
 };
 
+function curveFunction(x: number, Z = 0.2, k = 0.1) {
+  if (x < 0) throw new Error('X must be >= 0');
+  if (Z <= 0 || Z >= 1) throw new Error('Z must be in (0,1)');
+  return 1 - (1 - Z) * Math.exp(-k * x);
+}
+
 export const createFaces = (
   itemHeight: number,
   visibleCount: number,
+  maxDegree: number = 90,
+  opacityRatio: number = 0.1,
+  curveSpeed: number = 2,
 ): Faces[] => {
   if (__DEV__) {
     if (visibleCount < 1 || visibleCount % 2 === 0) {
@@ -40,7 +49,7 @@ export const createFaces = (
   // e.g [30, 60, 90]
   const getDegreesRelativeCenter = () => {
     const maxStep = Math.trunc((visibleCount + 2) / 2); // + 2 because there are 2 more faces at 90 degrees
-    const stepDegree = 90 / maxStep;
+    const stepDegree = maxDegree / maxStep;
 
     const result = [];
     for (let i = 1; i <= maxStep; i++) {
@@ -68,19 +77,20 @@ export const createFaces = (
     return [screenHeights, offsets];
   };
 
-  const getOpacity = (index: number) => {
-    const map: Record<number, number> = {
-      0: 0,
-      1: 0.2,
-      2: 0.35,
-      3: 0.45,
-      4: 0.5,
-    };
-    return map[index] ?? Math.min(1, map[4]! + index * 0.5);
+  const getOpacity = (faceIndex: number, length: number, opacityRatio: number) => {
+    if (opacityRatio === 0) return 1;
+    if (Math.abs(faceIndex) === length - 1) return 0;
+    if (faceIndex === 0) return 1;
+    return (
+      1 +
+      0.2 -
+      curveFunction(Math.pow(Math.abs(faceIndex), curveSpeed), 0.2, opacityRatio)
+    );
   };
 
   const degrees = getDegreesRelativeCenter();
   const [screenHeight, offsets] = getScreenHeightsAndOffsets(degrees);
+  const length = degrees.length * 2 + 1;
 
   return [
     // top items
@@ -89,7 +99,7 @@ export const createFaces = (
         return {
           index: -1 * (index + 1),
           deg: degree,
-          opacity: getOpacity(degrees.length - 1 - index),
+          opacity: getOpacity(-1 * (index + 1), length, opacityRatio),
           offsetY: -1 * offsets[index]!,
           screenHeight: screenHeight[index]!,
         };
@@ -104,7 +114,7 @@ export const createFaces = (
       return {
         index: index + 1,
         deg: -1 * degree,
-        opacity: getOpacity(degrees.length - 1 - index),
+        opacity: getOpacity(index + 1, length, opacityRatio),
         offsetY: offsets[index]!,
         screenHeight: screenHeight[index]!,
       };
