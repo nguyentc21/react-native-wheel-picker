@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 import { useStableCallback } from '@rozhkov/react-useful-hooks';
 import { useEffectWithDynamicDepsLength } from '../../../utils/react';
 const useSyncScrollEffect = ({
@@ -8,10 +8,22 @@ const useSyncScrollEffect = ({
   extraValues = [],
   activeIndexRef,
   touching,
-  enableSyncScrollAfterScrollEnd
+  enableSyncScrollAfterScrollEnd,
+  offsetYAv,
+  itemHeight
 }) => {
+  const lastOffsetYValueRef = useRef(0);
+  useEffect(() => {
+    const id = offsetYAv.addListener(({
+      value
+    }) => {
+      lastOffsetYValueRef.current = value;
+    });
+    return () => offsetYAv.removeListener(id);
+  }, [offsetYAv]);
   const syncScroll = useStableCallback(() => {
-    if (listRef.current == null || touching || activeIndexRef.current === valueIndex) {
+    const isSelectedNotInCenter = lastOffsetYValueRef.current % itemHeight > itemHeight * 0.1;
+    if (listRef.current == null || touching || activeIndexRef.current === valueIndex && !isSelectedNotInCenter) {
       return;
     }
     listRef.current.scrollToIndex({

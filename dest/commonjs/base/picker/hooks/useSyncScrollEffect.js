@@ -14,10 +14,22 @@ const useSyncScrollEffect = ({
   extraValues = [],
   activeIndexRef,
   touching,
-  enableSyncScrollAfterScrollEnd
+  enableSyncScrollAfterScrollEnd,
+  offsetYAv,
+  itemHeight
 }) => {
+  const lastOffsetYValueRef = (0, _react.useRef)(0);
+  (0, _react.useEffect)(() => {
+    const id = offsetYAv.addListener(({
+      value
+    }) => {
+      lastOffsetYValueRef.current = value;
+    });
+    return () => offsetYAv.removeListener(id);
+  }, [offsetYAv]);
   const syncScroll = (0, _reactUsefulHooks.useStableCallback)(() => {
-    if (listRef.current == null || touching || activeIndexRef.current === valueIndex) {
+    const isSelectedNotInCenter = lastOffsetYValueRef.current % itemHeight > itemHeight * 0.1;
+    if (listRef.current == null || touching || activeIndexRef.current === valueIndex && !isSelectedNotInCenter) {
       return;
     }
     listRef.current.scrollToIndex({

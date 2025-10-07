@@ -123,11 +123,12 @@ const Picker = <ItemT extends PickerItem<any>>({
 }: PickerProps<ItemT>) => {
   const valueIndex = useValueIndex(data, value);
   const initialIndex = useInit(() => valueIndex);
-  const offsetY = useMemo(
-    () => new Animated.Value(valueIndex * itemHeight),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [readOnly], // when scrollEnabled changes, the events stop coming. Re-creating
-  );
+  // const offsetY = useMemo(
+  //   () => new Animated.Value(valueIndex * itemHeight),
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  //   [readOnly], // when scrollEnabled changes, the events stop coming. Re-creating
+  // );
+  const offsetY = useRef(new Animated.Value(valueIndex * itemHeight));
   const listRef = useRef<ListMethods>(null);
   const touching = useBoolean(false);
   const [faces, pickerHeight] = useMemo(() => {
@@ -169,7 +170,7 @@ const Picker = <ItemT extends PickerItem<any>>({
         data,
         valueIndex,
         itemHeight,
-        offsetYAv: offsetY,
+        offsetYAv: offsetY.current,
       },
       {
         onValueChanging,
@@ -184,6 +185,8 @@ const Picker = <ItemT extends PickerItem<any>>({
     activeIndexRef,
     touching: touching.value,
     enableSyncScrollAfterScrollEnd: _enableSyncScrollAfterScrollEnd,
+    offsetYAv: offsetY.current,
+    itemHeight,
   });
   const onScrollEnd = useStableCallback(() => {
     // consistency matters
@@ -192,7 +195,7 @@ const Picker = <ItemT extends PickerItem<any>>({
     onScrollEndForSyncScroll();
   });
   return (
-    <ScrollContentOffsetContext.Provider value={offsetY}>
+    <ScrollContentOffsetContext.Provider value={offsetY.current}>
       <PickerItemHeightContext.Provider value={itemHeight}>
         <View
           testID={testID}
@@ -216,7 +219,7 @@ const Picker = <ItemT extends PickerItem<any>>({
             readOnly,
             keyExtractor,
             renderItem: renderPickerItem,
-            scrollOffset: offsetY,
+            scrollOffset: offsetY.current,
             onTouchStart: touching.setTrue,
             onTouchEnd: touching.setFalse,
             onTouchCancel: touching.setFalse,

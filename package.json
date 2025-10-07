@@ -104,7 +104,7 @@
   "engines": {
     "node": ">= 16.0.0"
   },
-  "packageManager": "yarn@4.5.1",
+  "packageManager": "yarn@1.22.22",
   "commitlint": {
     "extends": [
       "@commitlint/config-conventional"

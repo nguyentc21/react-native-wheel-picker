@@ -71,10 +71,12 @@ const Picker = ({
 }) => {
   const valueIndex = useValueIndex(data, value);
   const initialIndex = useInit(() => valueIndex);
-  const offsetY = useMemo(() => new Animated.Value(valueIndex * itemHeight),
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  [readOnly] // when scrollEnabled changes, the events stop coming. Re-creating
-  );
+  // const offsetY = useMemo(
+  //   () => new Animated.Value(valueIndex * itemHeight),
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  //   [readOnly], // when scrollEnabled changes, the events stop coming. Re-creating
+  // );
+  const offsetY = useRef(new Animated.Value(valueIndex * itemHeight));
   const listRef = useRef(null);
   const touching = useBoolean(false);
   const [faces, pickerHeight] = useMemo(() => {
@@ -104,7 +106,7 @@ const Picker = ({
     data,
     valueIndex,
     itemHeight,
-    offsetYAv: offsetY
+    offsetYAv: offsetY.current
   }, {
     onValueChanging,
     onValueChanged
@@ -118,7 +120,9 @@ const Picker = ({
     extraValues,
     activeIndexRef,
     touching: touching.value,
-    enableSyncScrollAfterScrollEnd: _enableSyncScrollAfterScrollEnd
+    enableSyncScrollAfterScrollEnd: _enableSyncScrollAfterScrollEnd,
+    offsetYAv: offsetY.current,
+    itemHeight
   });
   const onScrollEnd = useStableCallback(() => {
     // consistency matters
@@ -127,7 +131,7 @@ const Picker = ({
     onScrollEndForSyncScroll();
   });
   return /*#__PURE__*/React.createElement(ScrollContentOffsetContext.Provider, {
-    value: offsetY
+    value: offsetY.current
   }, /*#__PURE__*/React.createElement(PickerItemHeightContext.Provider, {
     value: itemHeight
   }, /*#__PURE__*/React.createElement(View, {
@@ -147,7 +151,7 @@ const Picker = ({
     readOnly,
     keyExtractor,
     renderItem: renderPickerItem,
-    scrollOffset: offsetY,
+    scrollOffset: offsetY.current,
     onTouchStart: touching.setTrue,
     onTouchEnd: touching.setFalse,
     onTouchCancel: touching.setFalse,

@@ -80,10 +80,12 @@ const Picker = ({
 }) => {
   const valueIndex = useValueIndex(data, value);
   const initialIndex = (0, _reactUsefulHooks.useInit)(() => valueIndex);
-  const offsetY = (0, _react.useMemo)(() => new _reactNative.Animated.Value(valueIndex * itemHeight),
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  [readOnly] // when scrollEnabled changes, the events stop coming. Re-creating
-  );
+  // const offsetY = useMemo(
+  //   () => new Animated.Value(valueIndex * itemHeight),
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  //   [readOnly], // when scrollEnabled changes, the events stop coming. Re-creating
+  // );
+  const offsetY = (0, _react.useRef)(new _reactNative.Animated.Value(valueIndex * itemHeight));
   const listRef = (0, _react.useRef)(null);
   const touching = (0, _react2.useBoolean)(false);
   const [faces, pickerHeight] = (0, _react.useMemo)(() => {
@@ -113,7 +115,7 @@ const Picker = ({
     data,
     valueIndex,
     itemHeight,
-    offsetYAv: offsetY
+    offsetYAv: offsetY.current
   }, {
     onValueChanging,
     onValueChanged
@@ -127,7 +129,9 @@ const Picker = ({
     extraValues,
     activeIndexRef,
     touching: touching.value,
-    enableSyncScrollAfterScrollEnd: _enableSyncScrollAfterScrollEnd
+    enableSyncScrollAfterScrollEnd: _enableSyncScrollAfterScrollEnd,
+    offsetYAv: offsetY.current,
+    itemHeight
   });
   const onScrollEnd = (0, _reactUsefulHooks.useStableCallback)(() => {
     // consistency matters
@@ -136,7 +140,7 @@ const Picker = ({
     onScrollEndForSyncScroll();
   });
   return /*#__PURE__*/_react.default.createElement(_ScrollContentOffsetContext.ScrollContentOffsetContext.Provider, {
-    value: offsetY
+    value: offsetY.current
   }, /*#__PURE__*/_react.default.createElement(_PickerItemHeightContext.PickerItemHeightContext.Provider, {
     value: itemHeight
   }, /*#__PURE__*/_react.default.createElement(_reactNative.View, {
@@ -156,7 +160,7 @@ const Picker = ({
     readOnly,
     keyExtractor,
     renderItem: renderPickerItem,
-    scrollOffset: offsetY,
+    scrollOffset: offsetY.current,
     onTouchStart: touching.setTrue,
     onTouchEnd: touching.setFalse,
     onTouchCancel: touching.setFalse,

@@ -1,7 +1,8 @@
-import {type RefObject, useRef} from 'react';
+import {type RefObject, useRef, useEffect} from 'react';
 import {useStableCallback} from '@rozhkov/react-useful-hooks';
 import {useEffectWithDynamicDepsLength} from '../../../utils/react';
 import type {ListMethods} from '../../types';
+import type {Animated} from 'react-native';
 const useSyncScrollEffect = ({
   listRef,
   value,
@@ -10,6 +11,8 @@ const useSyncScrollEffect = ({
   activeIndexRef,
   touching,
   enableSyncScrollAfterScrollEnd,
+  offsetYAv,
+  itemHeight,
 }: {
   listRef: RefObject<ListMethods | null>;
   value: unknown;
@@ -18,12 +21,23 @@ const useSyncScrollEffect = ({
   activeIndexRef: RefObject<number>;
   touching: boolean;
   enableSyncScrollAfterScrollEnd: boolean;
+  offsetYAv: Animated.Value;
+  itemHeight: number;
 }) => {
+  const lastOffsetYValueRef = useRef(0);
+  useEffect(() => {
+    const id = offsetYAv.addListener(({value}) => {
+      lastOffsetYValueRef.current = value;
+    });
+    return () => offsetYAv.removeListener(id);
+  }, [offsetYAv]);
   const syncScroll = useStableCallback(() => {
+    const isSelectedNotInCenter =
+      lastOffsetYValueRef.current % itemHeight > itemHeight * 0.1;
     if (
       listRef.current == null ||
       touching ||
-      activeIndexRef.current === valueIndex
+      (activeIndexRef.current === valueIndex && !isSelectedNotInCenter)
     ) {
       return;
     }
