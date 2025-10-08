@@ -24,7 +24,7 @@ type ComponentProps = Pick<
   | 'onMomentumScrollEnd'
 >;
 type ExtendProps<PropsT> = PropsT & {
-  scrollOffset: Animated.Value;
+  scrollOffset?: Animated.Value;
   onScrollStart?: () => void;
   onScrollEnd?: () => void;
 };
@@ -91,6 +91,7 @@ const withScrollStartEndEvent = <PropsT extends ComponentProps>(
       },
     );
     useEffect(() => {
+      if (!scrollOffset) return;
       const sub = scrollOffset.addListener(() => {
         if (!isOnScrollStartCalledRef.current) {
           // If this condition is met, then we assume that no events were triggered,
