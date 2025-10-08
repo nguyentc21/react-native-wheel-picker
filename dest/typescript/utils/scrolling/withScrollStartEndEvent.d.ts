@@ -2,7 +2,7 @@ import React, { type ComponentType } from 'react';
 import type { Animated, ScrollViewProps } from 'react-native';
 type ComponentProps = Pick<ScrollViewProps, 'onScrollBeginDrag' | 'onScrollEndDrag' | 'onMomentumScrollBegin' | 'onMomentumScrollEnd'>;
 type ExtendProps<PropsT> = PropsT & {
-    scrollOffset: Animated.Value;
+    scrollOffset?: Animated.Value;
     onScrollStart?: () => void;
     onScrollEnd?: () => void;
 };

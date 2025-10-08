@@ -50,6 +50,7 @@ const withScrollStartEndEvent = Component => {
       onScrollEnd();
     });
     useEffect(() => {
+      if (!scrollOffset) return;
       const sub = scrollOffset.addListener(() => {
         if (!isOnScrollStartCalledRef.current) {
           // If this condition is met, then we assume that no events were triggered,

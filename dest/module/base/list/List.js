@@ -64,8 +64,9 @@ const List = ({
   }, restProps, {
     ref: listRef,
     contentOffset: initialOffset,
-    onScroll: onScroll,
-    scrollOffset: scrollOffset,
+    onScroll: onScroll
+    // scrollOffset={scrollOffset}
+    ,
     snapToOffsets: snapToOffsets,
     style: styles.list,
     contentContainerStyle: contentContainerStyle,

@@ -71,11 +71,6 @@ const Picker = ({
 }) => {
   const valueIndex = useValueIndex(data, value);
   const initialIndex = useInit(() => valueIndex);
-  // const offsetY = useMemo(
-  //   () => new Animated.Value(valueIndex * itemHeight),
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  //   [readOnly], // when scrollEnabled changes, the events stop coming. Re-creating
-  // );
   const offsetY = useRef(new Animated.Value(valueIndex * itemHeight));
   const listRef = useRef(null);
   const touching = useBoolean(false);

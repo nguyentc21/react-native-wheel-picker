@@ -80,11 +80,6 @@ const Picker = ({
 }) => {
   const valueIndex = useValueIndex(data, value);
   const initialIndex = (0, _reactUsefulHooks.useInit)(() => valueIndex);
-  // const offsetY = useMemo(
-  //   () => new Animated.Value(valueIndex * itemHeight),
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  //   [readOnly], // when scrollEnabled changes, the events stop coming. Re-creating
-  // );
   const offsetY = (0, _react.useRef)(new _reactNative.Animated.Value(valueIndex * itemHeight));
   const listRef = (0, _react.useRef)(null);
   const touching = (0, _react2.useBoolean)(false);
