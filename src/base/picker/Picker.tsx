@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo, useRef} from 'react';
+import React, {useCallback, useMemo, useRef, useEffect} from 'react';
 import type {TextStyle} from 'react-native';
 import {
   type StyleProp,
@@ -38,6 +38,10 @@ type TransformOptions = {
   /** Default = 2. The larger the number, the faster the items near the center change*/
   curveSpeed?: number;
 };
+export type PickerHandler<ItemT extends PickerItem<any>> = {
+  scrollToIndex(index: number, animated?: boolean): void;
+  scrollToValue(value: ItemT['value'], animated?: boolean): void;
+};
 export type PickerProps<ItemT extends PickerItem<any>> = {
   data: ReadonlyArray<ItemT>;
   value: ItemT['value'];
@@ -63,6 +67,7 @@ export type PickerProps<ItemT extends PickerItem<any>> = {
   _enableSyncScrollAfterScrollEnd?: boolean;
   _onScrollStart?: () => void;
   _onScrollEnd?: () => void;
+  expose?(handler?: PickerHandler<ItemT>): void;
 } & TransformOptions;
 const defaultKeyExtractor: KeyExtractor<any> = (_, index) => index.toString();
 const defaultRenderItem: RenderItem<PickerItem<any>> = ({
@@ -119,6 +124,7 @@ const Picker = <ItemT extends PickerItem<any>>({
   maxDegree,
   opacityRatio,
   curveSpeed,
+  expose,
   ...restProps
 }: PickerProps<ItemT>) => {
   const valueIndex = useValueIndex(data, value);
@@ -189,6 +195,28 @@ const Picker = <ItemT extends PickerItem<any>>({
     onScrollEndForValueEvents();
     onScrollEndForSyncScroll();
   });
+  const scrollToIndex = useStableCallback((index: number, animated?: boolean) => {
+    listRef.current?.scrollToIndex({
+      index,
+      animated: !!animated,
+    })
+  });
+  const scrollToValue = useStableCallback((value: ItemT['value'], animated?: boolean) => {
+    const targetIndex = data.findIndex((x) => x.value === value);
+    listRef.current?.scrollToIndex({
+      index: targetIndex,
+      animated: !!animated,
+    })
+  });
+  useEffect(() => {
+    if (!expose) return;
+    const handle: PickerHandler<ItemT> = {
+      scrollToIndex,
+      scrollToValue,
+    };
+    expose(handle);
+    return () => expose?.(undefined);
+  }, [expose]);
   return (
     <ScrollContentOffsetContext.Provider value={offsetY.current}>
       <PickerItemHeightContext.Provider value={itemHeight}>
