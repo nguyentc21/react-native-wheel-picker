@@ -76,6 +76,7 @@ const Picker = ({
   maxDegree,
   opacityRatio,
   curveSpeed,
+  expose,
   ...restProps
 }) => {
   const valueIndex = useValueIndex(data, value);
@@ -134,6 +135,30 @@ const Picker = ({
     onScrollEndForValueEvents();
     onScrollEndForSyncScroll();
   });
+  const scrollToIndex = (0, _reactUsefulHooks.useStableCallback)((index, animated) => {
+    var _listRef$current;
+    (_listRef$current = listRef.current) === null || _listRef$current === void 0 || _listRef$current.scrollToIndex({
+      index,
+      animated: !!animated
+    });
+  });
+  const scrollToValue = (0, _reactUsefulHooks.useStableCallback)((value, animated) => {
+    var _listRef$current2;
+    const targetIndex = data.findIndex(x => x.value === value);
+    (_listRef$current2 = listRef.current) === null || _listRef$current2 === void 0 || _listRef$current2.scrollToIndex({
+      index: targetIndex,
+      animated: !!animated
+    });
+  });
+  (0, _react.useEffect)(() => {
+    if (!expose) return;
+    const handle = {
+      scrollToIndex,
+      scrollToValue
+    };
+    expose(handle);
+    return () => expose === null || expose === void 0 ? void 0 : expose(undefined);
+  }, [expose, scrollToIndex, scrollToValue]);
   return /*#__PURE__*/_react.default.createElement(_ScrollContentOffsetContext.ScrollContentOffsetContext.Provider, {
     value: offsetY.current
   }, /*#__PURE__*/_react.default.createElement(_PickerItemHeightContext.PickerItemHeightContext.Provider, {

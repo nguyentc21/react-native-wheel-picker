@@ -1,5 +1,5 @@
 function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
-import React, { useCallback, useMemo, useRef } from 'react';
+import React, { useCallback, useMemo, useRef, useEffect } from 'react';
 import { Animated, StyleSheet, View } from 'react-native';
 import PickerItemComponent from '../item/PickerItem';
 import { ScrollContentOffsetContext } from '../contexts/ScrollContentOffsetContext';
@@ -67,6 +67,7 @@ const Picker = ({
   maxDegree,
   opacityRatio,
   curveSpeed,
+  expose,
   ...restProps
 }) => {
   const valueIndex = useValueIndex(data, value);
@@ -125,6 +126,30 @@ const Picker = ({
     onScrollEndForValueEvents();
     onScrollEndForSyncScroll();
   });
+  const scrollToIndex = useStableCallback((index, animated) => {
+    var _listRef$current;
+    (_listRef$current = listRef.current) === null || _listRef$current === void 0 || _listRef$current.scrollToIndex({
+      index,
+      animated: !!animated
+    });
+  });
+  const scrollToValue = useStableCallback((value, animated) => {
+    var _listRef$current2;
+    const targetIndex = data.findIndex(x => x.value === value);
+    (_listRef$current2 = listRef.current) === null || _listRef$current2 === void 0 || _listRef$current2.scrollToIndex({
+      index: targetIndex,
+      animated: !!animated
+    });
+  });
+  useEffect(() => {
+    if (!expose) return;
+    const handle = {
+      scrollToIndex,
+      scrollToValue
+    };
+    expose(handle);
+    return () => expose === null || expose === void 0 ? void 0 : expose(undefined);
+  }, [expose, scrollToIndex, scrollToValue]);
   return /*#__PURE__*/React.createElement(ScrollContentOffsetContext.Provider, {
     value: offsetY.current
   }, /*#__PURE__*/React.createElement(PickerItemHeightContext.Provider, {

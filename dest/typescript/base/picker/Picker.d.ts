@@ -10,6 +10,10 @@ type TransformOptions = {
     /** Default = 2. The larger the number, the faster the items near the center change*/
     curveSpeed?: number;
 };
+export type PickerHandler<ItemT extends PickerItem<any>> = {
+    scrollToIndex(index: number, animated?: boolean): void;
+    scrollToValue(value: ItemT['value'], animated?: boolean): void;
+};
 export type PickerProps<ItemT extends PickerItem<any>> = {
     data: ReadonlyArray<ItemT>;
     value: ItemT['value'];
@@ -35,8 +39,9 @@ export type PickerProps<ItemT extends PickerItem<any>> = {
     _enableSyncScrollAfterScrollEnd?: boolean;
     _onScrollStart?: () => void;
     _onScrollEnd?: () => void;
+    expose?(handler?: PickerHandler<ItemT>): void;
 } & TransformOptions;
 export declare const useValueIndex: (data: ReadonlyArray<PickerItem<any>>, value: any) => number;
-declare const Picker: <ItemT extends PickerItem<any>>({ data, value, extraValues, width, itemHeight, visibleItemCount, readOnly, enableScrollByTapOnItem, testID, onValueChanged, onValueChanging, keyExtractor, renderItem, renderItemContainer, renderOverlay, renderList, style, itemTextStyle, overlayItemStyle, contentContainerStyle, _enableSyncScrollAfterScrollEnd, _onScrollStart, _onScrollEnd, maxDegree, opacityRatio, curveSpeed, ...restProps }: PickerProps<ItemT>) => React.JSX.Element;
+declare const Picker: <ItemT extends PickerItem<any>>({ data, value, extraValues, width, itemHeight, visibleItemCount, readOnly, enableScrollByTapOnItem, testID, onValueChanged, onValueChanging, keyExtractor, renderItem, renderItemContainer, renderOverlay, renderList, style, itemTextStyle, overlayItemStyle, contentContainerStyle, _enableSyncScrollAfterScrollEnd, _onScrollStart, _onScrollEnd, maxDegree, opacityRatio, curveSpeed, expose, ...restProps }: PickerProps<ItemT>) => React.JSX.Element;
 export default Picker;
 //# sourceMappingURL=Picker.d.ts.map

@@ -195,19 +195,23 @@ const Picker = <ItemT extends PickerItem<any>>({
     onScrollEndForValueEvents();
     onScrollEndForSyncScroll();
   });
-  const scrollToIndex = useStableCallback((index: number, animated?: boolean) => {
-    listRef.current?.scrollToIndex({
-      index,
-      animated: !!animated,
-    })
-  });
-  const scrollToValue = useStableCallback((value: ItemT['value'], animated?: boolean) => {
-    const targetIndex = data.findIndex((x) => x.value === value);
-    listRef.current?.scrollToIndex({
-      index: targetIndex,
-      animated: !!animated,
-    })
-  });
+  const scrollToIndex = useStableCallback(
+    (index: number, animated?: boolean) => {
+      listRef.current?.scrollToIndex({
+        index,
+        animated: !!animated,
+      });
+    },
+  );
+  const scrollToValue = useStableCallback(
+    (value: ItemT['value'], animated?: boolean) => {
+      const targetIndex = data.findIndex((x) => x.value === value);
+      listRef.current?.scrollToIndex({
+        index: targetIndex,
+        animated: !!animated,
+      });
+    },
+  );
   useEffect(() => {
     if (!expose) return;
     const handle: PickerHandler<ItemT> = {
@@ -216,7 +220,7 @@ const Picker = <ItemT extends PickerItem<any>>({
     };
     expose(handle);
     return () => expose?.(undefined);
-  }, [expose]);
+  }, [expose, scrollToIndex, scrollToValue]);
   return (
     <ScrollContentOffsetContext.Provider value={offsetY.current}>
       <PickerItemHeightContext.Provider value={itemHeight}>
