@@ -13,9 +13,9 @@ var _math = require("../../utils/math");
 const calcHeight = (degree, itemHeight) => itemHeight * Math.cos((0, _math.degToRad)(degree));
 const calcPickerHeight = (faces, itemHeight) => {
   // TODO left for backward compatibility, it must be removed after updating the major version.
-  if (faces.length === 7) {
-    return itemHeight * 5;
-  }
+  // if (faces.length === 7) {
+  //   return itemHeight * 5;
+  // }
   return faces.reduce((r, v) => r + calcHeight(Math.abs(v.deg), itemHeight), 0);
 };
 exports.calcPickerHeight = calcPickerHeight;

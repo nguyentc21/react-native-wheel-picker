@@ -7,9 +7,9 @@ import { degToRad } from '../../utils/math';
 const calcHeight = (degree, itemHeight) => itemHeight * Math.cos(degToRad(degree));
 export const calcPickerHeight = (faces, itemHeight) => {
   // TODO left for backward compatibility, it must be removed after updating the major version.
-  if (faces.length === 7) {
-    return itemHeight * 5;
-  }
+  // if (faces.length === 7) {
+  //   return itemHeight * 5;
+  // }
   return faces.reduce((r, v) => r + calcHeight(Math.abs(v.deg), itemHeight), 0);
 };
 function curveFunction(x, Z = 0.2, k = 0.1) {
