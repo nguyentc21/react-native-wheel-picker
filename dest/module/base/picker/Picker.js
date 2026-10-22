@@ -52,6 +52,7 @@ const Picker = ({
   testID,
   onValueChanged,
   onValueChanging,
+  onPressItem,
   keyExtractor = defaultKeyExtractor,
   renderItem = defaultRenderItem,
   renderItemContainer = defaultRenderItemContainer,
@@ -93,8 +94,9 @@ const Picker = ({
     renderItem,
     itemTextStyle,
     enableScrollByTapOnItem,
-    readOnly
-  }), [enableScrollByTapOnItem, faces, itemTextStyle, readOnly, renderItem, renderItemContainer]);
+    readOnly,
+    onPressItem
+  }), [enableScrollByTapOnItem, faces, itemTextStyle, readOnly, renderItem, renderItemContainer, onPressItem]);
   const {
     activeIndexRef,
     onScrollEnd: onScrollEndForValueEvents

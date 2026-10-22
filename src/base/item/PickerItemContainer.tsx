@@ -93,7 +93,10 @@ const PickerItemContainer = ({
         animated: true,
       });
     }
-    onPressItem?.({item, index});
+    onPressItem?.({
+      item,
+      index,
+    });
   };
   return (
     <TouchableWithoutFeedback onPress={handlePress}>

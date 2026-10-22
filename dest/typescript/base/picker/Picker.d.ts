@@ -1,7 +1,7 @@
 import React from 'react';
 import type { TextStyle } from 'react-native';
 import { type StyleProp, type ViewStyle } from 'react-native';
-import type { KeyExtractor, OnValueChanged, OnValueChanging, PickerItem, RenderItem, RenderItemContainer, RenderList, RenderOverlay } from '../types';
+import type { KeyExtractor, OnPressItem, OnValueChanged, OnValueChanging, PickerItem, RenderItem, RenderItemContainer, RenderList, RenderOverlay } from '../types';
 type TransformOptions = {
     /** 0 to 90 (deg)*/
     maxDegree?: number;
@@ -26,6 +26,7 @@ export type PickerProps<ItemT extends PickerItem<any>> = {
     enableScrollByTapOnItem?: boolean;
     onValueChanging?: OnValueChanging<ItemT>;
     onValueChanged?: OnValueChanged<ItemT>;
+    onPressItem?: OnPressItem<ItemT>;
     keyExtractor?: KeyExtractor<ItemT>;
     renderItem?: RenderItem<ItemT>;
     renderItemContainer?: RenderItemContainer<ItemT>;
@@ -42,6 +43,6 @@ export type PickerProps<ItemT extends PickerItem<any>> = {
     expose?(handler?: PickerHandler<ItemT>): void;
 } & TransformOptions;
 export declare const useValueIndex: (data: ReadonlyArray<PickerItem<any>>, value: any) => number;
-declare const Picker: <ItemT extends PickerItem<any>>({ data, value, extraValues, width, itemHeight, visibleItemCount, readOnly, enableScrollByTapOnItem, testID, onValueChanged, onValueChanging, keyExtractor, renderItem, renderItemContainer, renderOverlay, renderList, style, itemTextStyle, overlayItemStyle, contentContainerStyle, _enableSyncScrollAfterScrollEnd, _onScrollStart, _onScrollEnd, maxDegree, opacityRatio, curveSpeed, expose, ...restProps }: PickerProps<ItemT>) => React.JSX.Element;
+declare const Picker: <ItemT extends PickerItem<any>>({ data, value, extraValues, width, itemHeight, visibleItemCount, readOnly, enableScrollByTapOnItem, testID, onValueChanged, onValueChanging, onPressItem, keyExtractor, renderItem, renderItemContainer, renderOverlay, renderList, style, itemTextStyle, overlayItemStyle, contentContainerStyle, _enableSyncScrollAfterScrollEnd, _onScrollStart, _onScrollEnd, maxDegree, opacityRatio, curveSpeed, expose, ...restProps }: PickerProps<ItemT>) => React.JSX.Element;
 export default Picker;
 //# sourceMappingURL=Picker.d.ts.map

@@ -17,7 +17,8 @@ const PickerItemContainer = ({
   renderItem,
   itemTextStyle,
   enableScrollByTapOnItem,
-  readOnly
+  readOnly,
+  onPressItem
 }) => {
   const offset = (0, _ScrollContentOffsetContext.useScrollContentOffset)();
   const height = (0, _PickerItemHeightContext.usePickerItemHeight)();
@@ -67,18 +68,24 @@ const PickerItemContainer = ({
       itemTextStyle
     }));
   };
-  if (!enableScrollByTapOnItem || readOnly) {
+  if (readOnly || !enableScrollByTapOnItem && !onPressItem) {
     return renderAnimatedView();
   }
-  const scrollToItem = () => {
-    var _listRef$current;
-    return (_listRef$current = listRef.current) === null || _listRef$current === void 0 ? void 0 : _listRef$current.scrollToIndex({
-      index,
-      animated: true
+  const handlePress = () => {
+    if (enableScrollByTapOnItem) {
+      var _listRef$current;
+      (_listRef$current = listRef.current) === null || _listRef$current === void 0 || _listRef$current.scrollToIndex({
+        index,
+        animated: true
+      });
+    }
+    onPressItem === null || onPressItem === void 0 || onPressItem({
+      item,
+      index
     });
   };
   return /*#__PURE__*/_react.default.createElement(_reactNative.TouchableWithoutFeedback, {
-    onPress: scrollToItem
+    onPress: handlePress
   }, renderAnimatedView());
 };
 var _default = exports.default = /*#__PURE__*/(0, _react.memo)(PickerItemContainer);

@@ -10,7 +10,8 @@ const PickerItemContainer = ({
   renderItem,
   itemTextStyle,
   enableScrollByTapOnItem,
-  readOnly
+  readOnly,
+  onPressItem
 }) => {
   const offset = useScrollContentOffset();
   const height = usePickerItemHeight();
@@ -60,18 +61,24 @@ const PickerItemContainer = ({
       itemTextStyle
     }));
   };
-  if (!enableScrollByTapOnItem || readOnly) {
+  if (readOnly || !enableScrollByTapOnItem && !onPressItem) {
     return renderAnimatedView();
   }
-  const scrollToItem = () => {
-    var _listRef$current;
-    return (_listRef$current = listRef.current) === null || _listRef$current === void 0 ? void 0 : _listRef$current.scrollToIndex({
-      index,
-      animated: true
+  const handlePress = () => {
+    if (enableScrollByTapOnItem) {
+      var _listRef$current;
+      (_listRef$current = listRef.current) === null || _listRef$current === void 0 || _listRef$current.scrollToIndex({
+        index,
+        animated: true
+      });
+    }
+    onPressItem === null || onPressItem === void 0 || onPressItem({
+      item,
+      index
     });
   };
   return /*#__PURE__*/React.createElement(TouchableWithoutFeedback, {
-    onPress: scrollToItem
+    onPress: handlePress
   }, renderAnimatedView());
 };
 export default /*#__PURE__*/memo(PickerItemContainer);

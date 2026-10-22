@@ -1,6 +1,6 @@
 import React, { type RefObject } from 'react';
 import { type TextStyle, type StyleProp } from 'react-native';
-import type { ListMethods, RenderItem } from '../types';
+import type { ListMethods, OnPressItem, RenderItem } from '../types';
 import type { Faces } from './faces';
 type PickerItemContainerProps = {
     listRef: RefObject<ListMethods | null>;
@@ -11,7 +11,8 @@ type PickerItemContainerProps = {
     itemTextStyle: StyleProp<TextStyle> | undefined;
     enableScrollByTapOnItem: boolean | undefined;
     readOnly: boolean | undefined;
+    onPressItem: OnPressItem<any> | undefined;
 };
-declare const _default: React.MemoExoticComponent<({ listRef, index, item, faces, renderItem, itemTextStyle, enableScrollByTapOnItem, readOnly, }: PickerItemContainerProps) => React.JSX.Element>;
+declare const _default: React.MemoExoticComponent<({ listRef, index, item, faces, renderItem, itemTextStyle, enableScrollByTapOnItem, readOnly, onPressItem, }: PickerItemContainerProps) => React.JSX.Element>;
 export default _default;
 //# sourceMappingURL=PickerItemContainer.d.ts.map
