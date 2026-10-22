@@ -7,6 +7,7 @@ exports.default = void 0;
 var _react = require("react");
 var _reactUsefulHooks = require("@rozhkov/react-useful-hooks");
 var _react2 = require("../../../utils/react");
+const MAX_SYNC_SCROLL_RETRIES = 5;
 const useSyncScrollEffect = ({
   listRef,
   value,
@@ -27,11 +28,19 @@ const useSyncScrollEffect = ({
     });
     return () => offsetYAv.removeListener(id);
   }, [offsetYAv]);
+  // guards against scrollToIndex -> onScrollEnd -> syncScroll looping forever
+  // when the centering check never settles (e.g. a stale offset read)
+  const retryCountRef = (0, _react.useRef)(0);
   const syncScroll = (0, _reactUsefulHooks.useStableCallback)(() => {
     const isSelectedNotInCenter = lastOffsetYValueRef.current % itemHeight > itemHeight * 0.1;
     if (listRef.current == null || touching || activeIndexRef.current === valueIndex && !isSelectedNotInCenter) {
+      retryCountRef.current = 0;
       return;
     }
+    if (retryCountRef.current >= MAX_SYNC_SCROLL_RETRIES) {
+      return;
+    }
+    retryCountRef.current += 1;
     listRef.current.scrollToIndex({
       index: valueIndex,
       animated: true
@@ -40,6 +49,7 @@ const useSyncScrollEffect = ({
   const timeoutId = (0, _react.useRef)(undefined);
   (0, _react2.useEffectWithDynamicDepsLength)(() => {
     clearTimeout(timeoutId.current);
+    retryCountRef.current = 0;
     // fix: loops between two values. We are making a small delay so that the value in other places can be updated for verification.
     timeoutId.current = setTimeout(syncScroll, 0);
   }, [valueIndex, enableSyncScrollAfterScrollEnd, ...extraValues]);
