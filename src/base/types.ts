@@ -33,6 +33,7 @@ export type RenderItemContainerProps<ItemT extends PickerItem<any>> = {
   itemTextStyle: StyleProp<TextStyle> | undefined;
   enableScrollByTapOnItem: boolean | undefined;
   readOnly: boolean | undefined;
+  onPressItem: OnPressItem<ItemT> | undefined;
 };
 export type RenderItemContainer<ItemT extends PickerItem<any>> = (
   props: RenderItemContainerProps<ItemT>,
@@ -87,4 +88,11 @@ export type OnValueChanging<ItemT extends PickerItem<any>> = (
 ) => void;
 export type OnValueChanged<ItemT extends PickerItem<any>> = (
   event: ValueChangedEvent<ItemT>,
+) => void;
+export type PressItemEvent<ItemT extends PickerItem<any>> = {
+  item: ItemT;
+  index: number;
+};
+export type OnPressItem<ItemT extends PickerItem<any>> = (
+  event: PressItemEvent<ItemT>,
 ) => void;

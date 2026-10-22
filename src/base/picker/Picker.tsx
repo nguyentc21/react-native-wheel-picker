@@ -15,6 +15,7 @@ import useSyncScrollEffect from './hooks/useSyncScrollEffect';
 import type {
   KeyExtractor,
   ListMethods,
+  OnPressItem,
   OnValueChanged,
   OnValueChanging,
   PickerItem,
@@ -54,6 +55,7 @@ export type PickerProps<ItemT extends PickerItem<any>> = {
   enableScrollByTapOnItem?: boolean;
   onValueChanging?: OnValueChanging<ItemT>;
   onValueChanged?: OnValueChanged<ItemT>;
+  onPressItem?: OnPressItem<ItemT>;
   keyExtractor?: KeyExtractor<ItemT>;
   renderItem?: RenderItem<ItemT>;
   renderItemContainer?: RenderItemContainer<ItemT>;
@@ -109,6 +111,7 @@ const Picker = <ItemT extends PickerItem<any>>({
   testID,
   onValueChanged,
   onValueChanging,
+  onPressItem,
   keyExtractor = defaultKeyExtractor,
   renderItem = defaultRenderItem,
   renderItemContainer = defaultRenderItemContainer,
@@ -155,6 +158,7 @@ const Picker = <ItemT extends PickerItem<any>>({
         itemTextStyle,
         enableScrollByTapOnItem,
         readOnly,
+        onPressItem,
       }),
     [
       enableScrollByTapOnItem,
@@ -163,6 +167,7 @@ const Picker = <ItemT extends PickerItem<any>>({
       readOnly,
       renderItem,
       renderItemContainer,
+      onPressItem,
     ],
   );
   const {activeIndexRef, onScrollEnd: onScrollEndForValueEvents} =

@@ -4,6 +4,8 @@ export type {
   ValueChangingEvent,
   OnValueChanged,
   OnValueChanging,
+  PressItemEvent,
+  OnPressItem,
   RenderItemProps,
   RenderItemContainerProps,
   RenderOverlayProps,

@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import {useScrollContentOffset} from '../contexts/ScrollContentOffsetContext';
 import {usePickerItemHeight} from '../contexts/PickerItemHeightContext';
-import type {ListMethods, RenderItem} from '../types';
+import type {ListMethods, OnPressItem, RenderItem} from '../types';
 import type {Faces} from './faces';
 type PickerItemContainerProps = {
   listRef: RefObject<ListMethods | null>;
@@ -18,6 +18,7 @@ type PickerItemContainerProps = {
   itemTextStyle: StyleProp<TextStyle> | undefined;
   enableScrollByTapOnItem: boolean | undefined;
   readOnly: boolean | undefined;
+  onPressItem: OnPressItem<any> | undefined;
 };
 const PickerItemContainer = ({
   listRef,
@@ -28,6 +29,7 @@ const PickerItemContainer = ({
   itemTextStyle,
   enableScrollByTapOnItem,
   readOnly,
+  onPressItem,
 }: PickerItemContainerProps) => {
   const offset = useScrollContentOffset();
   const height = usePickerItemHeight();
@@ -81,16 +83,20 @@ const PickerItemContainer = ({
       </Animated.View>
     );
   };
-  if (!enableScrollByTapOnItem || readOnly) {
+  if (readOnly || (!enableScrollByTapOnItem && !onPressItem)) {
     return renderAnimatedView();
   }
-  const scrollToItem = () =>
-    listRef.current?.scrollToIndex({
-      index,
-      animated: true,
-    });
+  const handlePress = () => {
+    if (enableScrollByTapOnItem) {
+      listRef.current?.scrollToIndex({
+        index,
+        animated: true,
+      });
+    }
+    onPressItem?.({item, index});
+  };
   return (
-    <TouchableWithoutFeedback onPress={scrollToItem}>
+    <TouchableWithoutFeedback onPress={handlePress}>
       {renderAnimatedView()}
     </TouchableWithoutFeedback>
   );
