@@ -28,7 +28,7 @@
   ],
   "scripts": {
     "test:run": "jest",
-    "tsc:check": "tsc --noEmit",
+    "tsc:check": "tsc --noEmit -p tsconfig.build.json",
     "lint:check": "eslint \"**/*.{js,ts,tsx}\"",
     "lint:fix": "eslint --fix \"**/*.{js,ts,tsx}\"",
     "build:check-all": "yarn lint:fix && yarn tsc:check && yarn test:run",
